@@ -1,0 +1,19 @@
+{
+    "name": "pmvc-plugin/observer",
+    "description": "PMVC observer plugin, event dispatcher",
+    "type": "library",
+    "homepage": "https://github.com/pmvc-plugin/observer",
+    "keywords": ["observer",  "pmvc", "plug", "plug-in"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hill",
+            "email": "hill@kimo.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0",
+        "pmvc/pmvc": "*"
+    },
+    "minimum-stability": "dev"
+}
