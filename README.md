@@ -22,6 +22,6 @@
 }
 ```
 ### 3. Use composer to install
-php composer.phar install
-or php composer.phar require dispatcher
+   * php composer.phar install
+   * or php composer.phar require dispatcher
 
