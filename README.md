@@ -23,5 +23,5 @@
 ```
 ### 3. Use composer to install
    * php composer.phar install
-   * or php composer.phar require dispatcher
+   * or php composer.phar require pmvc-plugin/dispatcher
 
