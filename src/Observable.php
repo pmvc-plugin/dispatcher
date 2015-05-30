@@ -10,21 +10,21 @@ class Observable implements \SplSubject
 
     private $_name;
     private $_storage;
-    function __construct($name)
+    public function __construct($name)
     {
        $this->_name = $name; 
        $this->_storage = new \SplObjectStorage();
        $this->setDefaultAlias($this->_storage);
     }
 
-    function notify()
+    public function notify()
     {
         foreach ($this->_storage as $obj) {
             $obj->update($this);
         }
     }
 
-    function getName()
+    public function getName()
     {
         return $this->_name;
     }
@@ -36,7 +36,7 @@ class Observable implements \SplSubject
 
     public function detach ( \SplObserver $observer )
     {
-       $ttachthis->_storage->detach($observer); 
+       $this->_storage->detach($observer); 
     }
 }
 

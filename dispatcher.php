@@ -18,7 +18,7 @@ class dispatcher extends p\PlugIn
     * Private
     * $observers an array of Observer objects to notify
     */
-    private $subjects=array();
+    private $_subjects=array();
 
     /**
     * Calls the update() function using the reference to each
@@ -27,10 +27,10 @@ class dispatcher extends p\PlugIn
     */ 
     function notify($state,$clean=null)
     {
-        if(isset($this->subjects[$state])){
-            $this->subjects[$state]->notify();
+        if(isset($this->_subjects[$state])){
+            $this->_subjects[$state]->notify();
             if($clean){
-                $this->subjects[$state]->removeAll();
+                $this->_subjects[$state]->removeAll();
             }
         }
     }
@@ -39,38 +39,39 @@ class dispatcher extends p\PlugIn
     * Register the reference to an object object
     * @return void
     */ 
-    function addObserver ($observer,$state=null)
+    function attach($observer,$state)
     {
-        if(empty($observer->name)){
-            $observer->name=uniqid(rand());
+        if(!isset($this->_subjects[$state])){
+            $this->_subjects[$state] = new Observable($state);
         }
-        if(!isset($this->subjects[$state])){
-            $this->subjects[$state] = new Observable($state);
-        }
-        $this->subjects[$state]->attach($observer);
-        return $this->subjects[$state];
+        $this->_subjects[$state]->attach($observer);
+        return $this->_subjects[$state];
     }
  
     /** 
      * Deletes/deattaches an observer from the the object. 
      * @param object $observer 
      */ 
-    function deleteObserver($observer)
+    function detach($observer,$state=null)
     {
-        foreach($this->subjects as $subject){
-            $subject->detach($observer);
+        if (isset($this->_subjects[$state])) {
+            $this->_subjects[$state]->detach($observer);
+        } else {
+            foreach($this->_subjects as $subject){
+                $subject->detach($observer);
+            }
         }
     }
 
     /** 
      * Deletes/detaches every currently attached observer. 
      */
-    function deleteObservers($state=null)
+    function cleanObserver($state=null)
     {
         if(is_null($state)){
-            $this->subjects = array();
+            $this->_subjects = array();
         }else{
-            $this->subjects[$state]->removeAll();
+            $this->_subjects[$state]->removeAll();
         }
     }
 
