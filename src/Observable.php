@@ -38,6 +38,14 @@ class Observable implements \SplSubject
     {
        $this->_storage->detach($observer); 
     }
+
+    public function removeAll ( $object=null )
+    {
+        if(empty($object)){
+            $object = $this->_storage;
+        }
+        $this->_storage->removeAll($object);
+    }
 }
 
 
