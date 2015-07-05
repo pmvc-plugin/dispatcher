@@ -78,7 +78,7 @@ class dispatcher extends p\PlugIn
     function set($k, $v=null)
     {
         $this->last_config_key = $k;
-        call_user_func_array(array('parent','set'),array($k,$v)); 
+        $this[$k] = $v;
         $this->notify('SetConfig');
     }
 
@@ -99,7 +99,7 @@ class dispatcher extends p\PlugIn
         if('setOption'!=$this->last_config_key){
             return false;
         }
-        $last_options=$this->get('setOption');
+        $last_options=$this['setOption'];
         return $this->isContain($last_options,$key);
     }
 }
