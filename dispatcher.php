@@ -102,6 +102,15 @@ class dispatcher extends p\PlugIn
         $last_options=$this['setOption'];
         return $this->isContain($last_options,$key);
     }
+
+    function stop($bool=null)
+    {
+        if (is_null($bool)) {
+            return \PMVC\getOption(\PMVC\PAUSE); 
+         } else {
+            return \PMVC\option('set',\PMVC\PAUSE,$bool);
+        }
+    }
 }
 
 ?>
