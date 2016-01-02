@@ -69,7 +69,9 @@ class dispatcher extends p\PlugIn
     function cleanObserver($state=null)
     {
         if(is_null($state)){
-            $this->_subjects = array();
+            foreach($this->_subjects as $subject){
+                $subject->removeAll();
+            }
         }else{
             $this->_subjects[$state]->removeAll();
         }

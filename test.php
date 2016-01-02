@@ -38,12 +38,12 @@ class ObserverTest extends PHPUnit_Framework_TestCase
         $subject=$dispatcher->attach($mockObserver, 'test');
         $this->assertContains(
             'MockObserver',
-            print_r($dispatcher,true)
+            print_r($subject,true)
         );
         $dispatcher->cleanObserver();
         $this->assertNotContains(
             'MockObserver',
-            print_r($dispatcher,true)
+            print_r($subject,true)
         );
     }
 
