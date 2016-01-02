@@ -79,7 +79,7 @@ class dispatcher extends p\PlugIn
     {
         $this->last_config_key = $k;
         $this[$k] = $v;
-        $this->notify('SetConfig');
+        $this->notify(p\Event\SET_CONFIG);
     }
 
     function isContain($haystack,$needle)
