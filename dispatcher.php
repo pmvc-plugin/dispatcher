@@ -84,25 +84,13 @@ class dispatcher extends p\PlugIn
         $this->notify(p\Event\SET_CONFIG);
     }
 
-    function isContain($haystack,$needle)
-    {
-        if(
-            $haystack === $needle
-            || isset($haystack[$needle])
-        ){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
     function isSetOption($key)
     {
         if('setOption'!=$this->last_config_key){
             return false;
         }
         $last_options=$this['setOption'];
-        return $this->isContain($last_options,$key);
+        return \PMVC\isContain($last_options,$key);
     }
 
     function stop($bool=null)
