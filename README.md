@@ -1,8 +1,8 @@
 [![Latest Stable Version](https://poser.pugx.org/pmvc-plugin/dispatcher/v/stable)](https://packagist.org/packages/pmvc-plugin/dispatcher) 
-[![Total Downloads](https://poser.pugx.org/pmvc-plugin/dispatcher/downloads)](https://packagist.org/packages/pmvc-plugin/dispatcher) 
 [![Latest Unstable Version](https://poser.pugx.org/pmvc-plugin/dispatcher/v/unstable)](https://packagist.org/packages/pmvc-plugin/dispatcher) 
-[![License](https://poser.pugx.org/pmvc-plugin/dispatcher/license)](https://packagist.org/packages/pmvc-plugin/dispatcher)
 [![Build Status](https://travis-ci.org/pmvc-plugin/dispatcher.svg?branch=master)](https://travis-ci.org/pmvc-plugin/dispatcher)
+[![License](https://poser.pugx.org/pmvc-plugin/dispatcher/license)](https://packagist.org/packages/pmvc-plugin/dispatcher)
+[![Total Downloads](https://poser.pugx.org/pmvc-plugin/dispatcher/downloads)](https://packagist.org/packages/pmvc-plugin/dispatcher) 
 
 # PMVC Dispatcher / Observable Plugin 
 ===============
