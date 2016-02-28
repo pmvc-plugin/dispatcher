@@ -25,7 +25,14 @@ class dispatcher extends p\PlugIn
     * registered observer - used by children of Observable
     * @return void
     */ 
-    function notify($state,$clean=null)
+    public function notify($state,$clean=null)
+    {
+        $this->_notify($state.'_prep',$clean);
+        $this->_notify($state,$clean);
+        $this->_notify($state.'_post',$clean);
+    }
+
+    private function _notify($state,$clean=null)
     {
         if(isset($this->_subjects[$state])){
             $this->_subjects[$state]->notify();
@@ -39,13 +46,27 @@ class dispatcher extends p\PlugIn
     * Register the reference to an object object
     * @return void
     */ 
-    function attach($observer,$state)
+    public function attach($observer,$state)
     {
         if(!isset($this->_subjects[$state])){
             $this->_subjects[$state] = new Observable($state);
         }
         $this->_subjects[$state]->attach($observer);
         return $this->_subjects[$state];
+    }
+    /**
+     * Attach Before
+     */
+    public function attachBefore($observer,$state)
+    {
+        $this->attach($observer, $state.'_prep');
+    }
+    /**
+     * Attach After 
+     */
+    public function attachAfter($observer,$state)
+    {
+        $this->attach($observer, $state.'_post');
     }
  
     /** 
