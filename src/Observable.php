@@ -1,19 +1,25 @@
 <?php
 namespace PMVC\PlugIn\dispatcher;
+use SplSubject;
+use SplObserver;
+use SplObjectStorage;
+use PMVC;
 
-class Observable implements \SplSubject
+class Observable implements SplSubject
 {
     /**
      * Alias
      */
-    use \PMVC\Alias;
+    use PMVC\Alias {
+        initAliasFunction as private aliasFunction;
+    }
 
     private $_name;
     private $_storage;
     public function __construct($name)
     {
        $this->_name = $name; 
-       $this->_storage = new \SplObjectStorage();
+       $this->_storage = new SplObjectStorage();
        $this->setDefaultAlias($this->_storage);
     }
 
@@ -29,12 +35,12 @@ class Observable implements \SplSubject
         return $this->_name;
     }
 
-    public function attach ( \SplObserver $observer )
+    public function attach ( SplObserver $observer )
     {
        $this->_storage->attach($observer); 
     }
 
-    public function detach ( \SplObserver $observer )
+    public function detach ( SplObserver $observer )
     {
        $this->_storage->detach($observer); 
     }
@@ -45,6 +51,12 @@ class Observable implements \SplSubject
             $object = $this->_storage;
         }
         $this->_storage->removeAll($object);
+    }
+
+    public function initAliasFunction()
+    {
+        $arr = $this->aliasFunction(); 
+        return [$arr['aliasDefaultClass']];
     }
 }
 
