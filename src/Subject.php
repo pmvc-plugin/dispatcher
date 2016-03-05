@@ -5,7 +5,7 @@ use SplObserver;
 use SplObjectStorage;
 use PMVC;
 
-class Observable implements SplSubject
+class Subject implements SplSubject
 {
     /**
      * Alias

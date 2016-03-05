@@ -2,7 +2,14 @@
 namespace PMVC\PlugIn\dispatcher;
 use PMVC as p;
 ${_INIT_CONFIG}[_CLASS] = 'PMVC\PlugIn\dispatcher\dispatcher';
-\PMVC\l(__DIR__.'/src/Observable.php');
+\PMVC\l(__DIR__.'/src/Subject.php');
+
+/**
+ * Const
+ */
+const PREP = '_prep';
+const POST = '_post';
+
 
 /**
  *  Base Observerable class
@@ -21,15 +28,14 @@ class dispatcher extends p\PlugIn
     private $_subjects=array();
 
     /**
-    * Calls the update() function using the reference to each
-    * registered observer - used by children of Observable
+    * Notify will call all observer update() function 
     * @return void
     */ 
     public function notify($state,$clean=null)
     {
-        $this->_notify($state.'_prep',$clean);
+        $this->_notify($state.PREP, $clean);
         $this->_notify($state,$clean);
-        $this->_notify($state.'_post',$clean);
+        $this->_notify($state.POST, $clean);
     }
 
     private function _notify($state,$clean=null)
@@ -49,7 +55,7 @@ class dispatcher extends p\PlugIn
     public function attach($observer,$state)
     {
         if(!isset($this->_subjects[$state])){
-            $this->_subjects[$state] = new Observable($state);
+            $this->_subjects[$state] = new Subject($state);
         }
         $this->_subjects[$state]->attach($observer);
         return $this->_subjects[$state];
@@ -59,14 +65,14 @@ class dispatcher extends p\PlugIn
      */
     public function attachBefore($observer,$state)
     {
-        $this->attach($observer, $state.'_prep');
+        $this->attach($observer, $state.PREP);
     }
     /**
      * Attach After 
      */
     public function attachAfter($observer,$state)
     {
-        $this->attach($observer, $state.'_post');
+        $this->attach($observer, $state.POST);
     }
  
     /** 
@@ -75,8 +81,17 @@ class dispatcher extends p\PlugIn
      */ 
     function detach($observer,$state=null)
     {
-        if (isset($this->_subjects[$state])) {
-            $this->_subjects[$state]->detach($observer);
+        if (!is_null($state)) {
+            $states = [
+                $state,
+                $state.PREP,
+                $state.POST
+            ];
+            foreach ($states as $state) {
+                if (isset($this->_subjects[$state])) {
+                    $this->_subjects[$state]->detach($observer);
+                }
+            }
         } else {
             foreach($this->_subjects as $subject){
                 $subject->detach($observer);
