@@ -126,7 +126,7 @@ class dispatcher extends p\PlugIn
             return false;
         }
         $last_options=$this['setOption'];
-        return \PMVC\isContain($last_options,$key);
+        return \PMVC\hasKey($last_options,$key);
     }
 
     function stop($bool=null)

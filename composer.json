@@ -2,7 +2,7 @@
     "name": "pmvc-plugin/dispatcher",
     "description": "PMVC observer plugin, event dispatcher",
     "type": "library",
-    "homepage": "https://github.com/pmvc-plugin/dispatcher",
+    "homepage": "https://github.com/pmvc/pmvc",
     "keywords": ["observable", "pmvc", "plug-in"],
     "license": "MIT",
     "authors": [
