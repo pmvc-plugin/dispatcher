@@ -37,12 +37,14 @@ class Subject implements SplSubject
 
     public function attach ( SplObserver $observer )
     {
-       $this->_storage->attach($observer); 
+        $observer = $observer['this'] ?: $observer;
+        $this->_storage->attach($observer); 
     }
 
     public function detach ( SplObserver $observer )
     {
-       $this->_storage->detach($observer); 
+        $observer = $observer['this'] ?: $observer;
+        $this->_storage->detach($observer); 
     }
 
     public function removeAll ( $object=null )
