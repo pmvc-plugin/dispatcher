@@ -1,6 +1,9 @@
 <?php
 namespace PMVC\PlugIn\dispatcher;
+
 use PMVC as p;
+use SplObserver;
+
 ${_INIT_CONFIG}[_CLASS] = 'PMVC\PlugIn\dispatcher\dispatcher';
 \PMVC\l(__DIR__.'/src/Subject.php');
 
@@ -52,7 +55,7 @@ class dispatcher extends p\PlugIn
     * Register the reference to an object object
     * @return void
     */ 
-    public function attach($observer,$state)
+    public function attach(SplObserver $observer, $state)
     {
         if(!isset($this->_subjects[$state])){
             $this->_subjects[$state] = new Subject($state);
@@ -63,14 +66,14 @@ class dispatcher extends p\PlugIn
     /**
      * Attach Before
      */
-    public function attachBefore($observer,$state)
+    public function attachBefore(SplObserver $observer, $state)
     {
         $this->attach($observer, $state.PREP);
     }
     /**
      * Attach After 
      */
-    public function attachAfter($observer,$state)
+    public function attachAfter(SplObserver $observer, $state)
     {
         $this->attach($observer, $state.POST);
     }
@@ -79,7 +82,7 @@ class dispatcher extends p\PlugIn
      * Deletes/deattaches an observer from the the object. 
      * @param object $observer 
      */ 
-    function detach($observer,$state=null)
+    function detach(SplObserver $observer, $state=null)
     {
         if (!is_null($state)) {
             $states = [

@@ -1,8 +1,15 @@
 <?php
+namespace PMVC\PlugIn\dispatcher;
+
+use PHPUnit_Framework_TestCase;
+use PMVC;
+
 PMVC\Load::plug();
 PMVC\addPlugInFolders(['../']);
+
 class ObserverTest extends PHPUnit_Framework_TestCase
 {
+    private $_plug = 'dispatcher';
     function testAddObserver()
     {
         $dispatcher = PMVC\plug('dispatcher');
@@ -15,7 +22,10 @@ class ObserverTest extends PHPUnit_Framework_TestCase
     {
         $event = 'Test';
         $dispatcher = PMVC\plug('dispatcher');
-        $mockObserver = $this->getMock('MockObserver',array('on'.$event));
+        $mockObserver = $this->getMock(
+            __NAMESPACE__.'\MockObserver',
+            ['on'.$event]
+        );
         $mockObserver->expects($this->once())
            ->method('on'.$event);
         $dispatcher->attach($mockObserver, $event);
@@ -45,6 +55,16 @@ class ObserverTest extends PHPUnit_Framework_TestCase
             'MockObserver',
             print_r($subject,true)
         );
+    }
+
+    function testSubjectDefaultAlias()
+    {
+        $fakeSubject = new Subject('');
+        $this->assertEquals(
+            32,
+            strlen($fakeSubject->getHash($fakeSubject))
+        );
+            
     }
 
 }

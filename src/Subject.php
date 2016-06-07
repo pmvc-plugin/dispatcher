@@ -11,7 +11,7 @@ class Subject implements SplSubject
      * Alias
      */
     use PMVC\Alias {
-        initAliasFunction as private aliasFunction;
+        getTypeOfAlias as private _getTypeOfAlias;
     }
 
     private $_name;
@@ -53,10 +53,10 @@ class Subject implements SplSubject
         $this->_storage->removeAll($object);
     }
 
-    public function initAliasFunction()
+    protected function getTypeOfAlias()
     {
-        $arr = $this->aliasFunction(); 
-        return [$arr['aliasDefaultClass']];
+        $arr = $this->_getTypeOfAlias(); 
+        return [$arr['aliasAsDefault']];
     }
 }
 
