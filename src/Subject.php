@@ -25,7 +25,10 @@ class Subject implements SplSubject
 
     public function notify()
     {
-        foreach ($this->_storage as $obj) {
+        $this->_storage->rewind();
+        while ($this->_storage->valid()) {
+            $obj = $this->_storage->current();
+            $this->_storage->next();
             $obj->update($this);
         }
     }
