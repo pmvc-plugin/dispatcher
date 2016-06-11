@@ -43,6 +43,7 @@ class dispatcher extends p\PlugIn
 
     private function _notify($state,$clean=null)
     {
+        $state = strtolower($state);
         if(isset($this->_subjects[$state])){
             $this->_subjects[$state]->notify();
             if($clean){
@@ -57,7 +58,8 @@ class dispatcher extends p\PlugIn
     */ 
     public function attach(SplObserver $observer, $state)
     {
-        if(!isset($this->_subjects[$state])){
+        $state = strtolower($state);
+        if (!isset($this->_subjects[$state])) {
             $this->_subjects[$state] = new Subject($state);
         }
         $this->_subjects[$state]->attach($observer);
@@ -84,7 +86,12 @@ class dispatcher extends p\PlugIn
      */ 
     function detach(SplObserver $observer, $state=null)
     {
-        if (!is_null($state)) {
+        if (is_null($state)) {
+            foreach($this->_subjects as $subject){
+                $subject->detach($observer);
+            }
+        } else {
+            $state = strtolower($state);
             $states = [
                 $state,
                 $state.PREP,
@@ -94,10 +101,6 @@ class dispatcher extends p\PlugIn
                 if (isset($this->_subjects[$state])) {
                     $this->_subjects[$state]->detach($observer);
                 }
-            }
-        } else {
-            foreach($this->_subjects as $subject){
-                $subject->detach($observer);
             }
         }
     }
@@ -112,6 +115,7 @@ class dispatcher extends p\PlugIn
                 $subject->removeAll();
             }
         }else{
+            $state = strtolower($state);
             $this->_subjects[$state]->removeAll();
         }
     }
