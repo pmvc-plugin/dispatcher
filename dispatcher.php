@@ -2,6 +2,7 @@
 namespace PMVC\PlugIn\dispatcher;
 
 use PMVC as p;
+use PMVC\Event;
 use SplObserver;
 
 ${_INIT_CONFIG}[_CLASS] = 'PMVC\PlugIn\dispatcher\dispatcher';
@@ -28,7 +29,7 @@ class dispatcher extends p\PlugIn
     * Private
     * $observers an array of Observer objects to notify
     */
-    private $_subjects=array();
+    private $_subjects = [];
 
     /**
     * Notify will call all observer update() function 
@@ -124,16 +125,16 @@ class dispatcher extends p\PlugIn
     {
         $this->last_config_key = $k;
         $this[$k] = $v;
-        $this->notify(p\Event\SET_CONFIG);
-        $this->notify(p\Event\SET_CONFIG.'_'.$v);
+        $this->notify(Event\SET_CONFIG);
+        $this->notify(Event\SET_CONFIG.'_'.$v);
     }
 
     function isSetOption($key)
     {
-        if('setOption'!=$this->last_config_key){
+        if(Event\SET_CONFIG != $this->last_config_key){
             return false;
         }
-        $last_options=$this['setOption'];
+        $last_options = $this[Event\SET_CONFIG];
         return \PMVC\hasKey($last_options,$key);
     }
 
