@@ -21,7 +21,7 @@ class ObserverTest extends PHPUnit_Framework_TestCase
     function testFireEvent()
     {
         $event = 'Test';
-        $dispatcher = PMVC\plug('dispatcher');
+        $dispatcher = PMVC\plug($this->_plug);
         $mockObserver = $this->getMock(
             __NAMESPACE__.'\MockObserver',
             ['on'.$event]
@@ -29,6 +29,20 @@ class ObserverTest extends PHPUnit_Framework_TestCase
         $mockObserver->expects($this->once())
            ->method('on'.$event);
         $dispatcher->attach($mockObserver, $event);
+        $dispatcher->notify($event);
+    }
+
+    function testAttachAfter()
+    {
+        $event = 'Test';
+        $dispatcher = PMVC\plug($this->_plug);
+        $mockObserver = $this->getMock(
+            __NAMESPACE__.'\MockObserver',
+            ['on'.$event]
+        );
+        $mockObserver->expects($this->once())
+           ->method('on'.$event);
+        $dispatcher->attachAfter($mockObserver, $event);
         $dispatcher->notify($event);
     }
 

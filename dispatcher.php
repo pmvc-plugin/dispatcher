@@ -57,11 +57,14 @@ class dispatcher extends p\PlugIn
     * Register the reference to an object object
     * @return void
     */ 
-    public function attach(SplObserver $observer, $state)
+    public function attach(SplObserver $observer, $state, $name=null)
     {
         $state = strtolower($state);
+        if (is_null($name)) {
+            $name = $state;
+        }
         if (!isset($this->_subjects[$state])) {
-            $this->_subjects[$state] = new Subject($state);
+            $this->_subjects[$state] = new Subject($name);
         }
         $this->_subjects[$state]->attach($observer);
         return $this->_subjects[$state];
@@ -71,14 +74,14 @@ class dispatcher extends p\PlugIn
      */
     public function attachBefore(SplObserver $observer, $state)
     {
-        $this->attach($observer, $state.PREP);
+        $this->attach($observer, $state.PREP, $state);
     }
     /**
      * Attach After 
      */
     public function attachAfter(SplObserver $observer, $state)
     {
-        $this->attach($observer, $state.POST);
+        $this->attach($observer, $state.POST, $state);
     }
  
     /** 
