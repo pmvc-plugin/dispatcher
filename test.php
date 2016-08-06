@@ -14,8 +14,12 @@ class ObserverTest extends PHPUnit_Framework_TestCase
     {
         $dispatcher = PMVC\plug('dispatcher');
         $mockObserver = new MockObserver();
-        $subject=$dispatcher->attach($mockObserver, 'test');
-        $this->assertTrue($subject->contains($mockObserver));
+        $return = $dispatcher->attach($mockObserver, 'test');
+        $this->assertEquals($return, $dispatcher);
+        $this->assertTrue($dispatcher->contains(
+            $mockObserver,
+            'test'
+        ));
     }
 
     function testFireEvent()
@@ -50,25 +54,32 @@ class ObserverTest extends PHPUnit_Framework_TestCase
     {
         $dispatcher = PMVC\plug('dispatcher');
         $mockObserver = new MockObserver();
-        $subject=$dispatcher->attach($mockObserver, 'test');
+        $dispatcher->attach($mockObserver, 'test');
+        $this->assertTrue($dispatcher->contains(
+            $mockObserver,
+            'test'
+        ));
         $dispatcher->detach($mockObserver);
-        $this->assertFalse($subject->contains($mockObserver));
+        $this->assertFalse($dispatcher->contains(
+            $mockObserver,
+            'test'
+        ));
     }
 
     function testDeleteObservers()
     {
         $dispatcher = PMVC\plug('dispatcher');
         $mockObserver = new MockObserver();
-        $subject=$dispatcher->attach($mockObserver, 'test');
-        $this->assertContains(
-            'MockObserver',
-            print_r($subject,true)
-        );
+        $dispatcher->attach($mockObserver, 'test');
+        $this->assertTrue($dispatcher->contains(
+            $mockObserver,
+            'test'
+        ));
         $dispatcher->cleanObserver();
-        $this->assertNotContains(
-            'MockObserver',
-            print_r($subject,true)
-        );
+        $this->assertFalse($dispatcher->contains(
+            $mockObserver,
+            'test'
+        ));
     }
 
     function testSubjectDefaultAlias()

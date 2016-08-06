@@ -21,9 +21,9 @@ const POST = '_post';
 class dispatcher extends p\PlugIn
 {
     /**
-     * last config key
+     * Last config key.
      */
-     private $last_config_key;
+     private $_lastConfigKey;
 
     /**
     * Private
@@ -55,7 +55,8 @@ class dispatcher extends p\PlugIn
 
     /**
     * Register the reference to an object object
-    * @return void
+    *
+    * @return $this 
     */ 
     public function attach(SplObserver $observer, $state, $name=null)
     {
@@ -67,28 +68,34 @@ class dispatcher extends p\PlugIn
             $this->_subjects[$state] = new Subject($name);
         }
         $this->_subjects[$state]->attach($observer);
-        return $this->_subjects[$state];
+        return $this[\PMVC\THIS];
     }
+
     /**
-     * Attach Before
+     * Attach Before.
+     *
+     * @return $this 
      */
     public function attachBefore(SplObserver $observer, $state)
     {
-        $this->attach($observer, $state.PREP, $state);
+        return $this->attach($observer, $state.PREP, $state);
     }
+
     /**
-     * Attach After 
+     * Attach After. 
+     *
+     * @return $this 
      */
     public function attachAfter(SplObserver $observer, $state)
     {
-        $this->attach($observer, $state.POST, $state);
+        return $this->attach($observer, $state.POST, $state);
     }
  
     /** 
      * Deletes/deattaches an observer from the the object. 
      * @param object $observer 
      */ 
-    function detach(SplObserver $observer, $state=null)
+    public function detach(SplObserver $observer, $state=null)
     {
         if (is_null($state)) {
             foreach($this->_subjects as $subject){
@@ -108,6 +115,15 @@ class dispatcher extends p\PlugIn
             }
         }
     }
+    
+    /**
+     * Contain.
+     */
+    public function contains(SplObserver $observer, $state)
+    {
+        $subject = $this->_subjects[strtolower($state)];
+        return $subject->contains($observer);
+    }
 
     /** 
      * Deletes/detaches every currently attached observer. 
@@ -126,7 +142,7 @@ class dispatcher extends p\PlugIn
 
     function set($k, $v=null)
     {
-        $this->last_config_key = $k;
+        $this->_lastConfigKey = $k;
         $this[$k] = $v;
         $this->notify(Event\SET_CONFIG);
         $this->notify(Event\SET_CONFIG.'_'.$v);
@@ -134,7 +150,7 @@ class dispatcher extends p\PlugIn
 
     function isSetOption($key)
     {
-        if(Event\SET_CONFIG != $this->last_config_key){
+        if(Event\SET_CONFIG != $this->_lastConfigKey){
             return false;
         }
         $last_options = $this[Event\SET_CONFIG];
