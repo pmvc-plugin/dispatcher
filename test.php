@@ -26,10 +26,10 @@ class ObserverTest extends PHPUnit_Framework_TestCase
     {
         $event = 'Test';
         $dispatcher = PMVC\plug($this->_plug);
-        $mockObserver = $this->getMock(
-            __NAMESPACE__.'\MockObserver',
-            ['on'.$event]
-        );
+
+        $mockObserver = $this->getMockBuilder(__NAMESPACE__.'\MockObserver')
+            ->setMethods(['on'.$event])
+            ->getMock();
         $mockObserver->expects($this->once())
            ->method('on'.$event);
         $dispatcher->attach($mockObserver, $event);
@@ -40,10 +40,9 @@ class ObserverTest extends PHPUnit_Framework_TestCase
     {
         $event = 'Test';
         $dispatcher = PMVC\plug($this->_plug);
-        $mockObserver = $this->getMock(
-            __NAMESPACE__.'\MockObserver',
-            ['on'.$event]
-        );
+        $mockObserver = $this->getMockBuilder(__NAMESPACE__.'\MockObserver')
+            ->setMethods(['on'.$event])
+            ->getMock();
         $mockObserver->expects($this->once())
            ->method('on'.$event);
         $dispatcher->attachAfter($mockObserver, $event);

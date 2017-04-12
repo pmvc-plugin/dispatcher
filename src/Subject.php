@@ -15,20 +15,18 @@ class Subject implements SplSubject
     }
 
     private $_name;
-    private $_storage;
     public function __construct($name)
     {
        $this->_name = $name; 
-       $this->_storage = new SplObjectStorage();
-       $this->setDefaultAlias($this->_storage);
+       $this->setDefaultAlias(new SplObjectStorage());
     }
 
     public function notify()
     {
-        $this->_storage->rewind();
-        while ($this->_storage->valid()) {
-            $obj = $this->_storage->current();
-            $this->_storage->next();
+        $this->defaultAlias->rewind();
+        while ($this->defaultAlias->valid()) {
+            $obj = $this->defaultAlias->current();
+            $this->defaultAlias->next();
             $obj->update($this);
         }
     }
@@ -40,22 +38,28 @@ class Subject implements SplSubject
 
     public function attach ( SplObserver $observer )
     {
-        $observer = $observer['this'] ?: $observer;
-        $this->_storage->attach($observer); 
+        $observer = \PMVC\get($observer, \PMVC\THIS, $observer);
+        $this->defaultAlias->attach($observer); 
     }
 
     public function detach ( SplObserver $observer )
     {
-        $observer = $observer['this'] ?: $observer;
-        $this->_storage->detach($observer); 
+        $observer = \PMVC\get($observer, \PMVC\THIS, $observer);
+        $this->defaultAlias->detach($observer); 
+    }
+
+    public function contains ( SplObserver $observer )
+    {
+        $observer = \PMVC\get($observer, \PMVC\THIS, $observer);
+        return $this->defaultAlias->contains($observer); 
     }
 
     public function removeAll ( $object=null )
     {
         if(empty($object)){
-            $object = $this->_storage;
+            $object = $this->defaultAlias;
         }
-        $this->_storage->removeAll($object);
+        $this->defaultAlias->removeAll($object);
     }
 
     protected function getTypeOfAlias()
