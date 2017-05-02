@@ -23,12 +23,20 @@ class Subject implements SplSubject
 
     public function notify()
     {
-        $this->defaultAlias->rewind();
-        while ($this->defaultAlias->valid()) {
-            $obj = $this->defaultAlias->current();
-            $this->defaultAlias->next();
+        $tmp = new SplObjectStorage();
+        $store = $this->defaultAlias;
+        $store->rewind();
+        while ($store->valid()) {
+            $obj = $store->current();
+            $store->next();
             $obj->update($this);
+            if ($store->contains($obj)) {
+                $tmp->attach($obj);
+                $store->detach($obj);
+            }
         }
+        unset($this->defaultAlias);
+        $this->setDefaultAlias($tmp);
     }
 
     public function getName()

@@ -81,6 +81,30 @@ class ObserverTest extends PHPUnit_Framework_TestCase
         ));
     }
 
+    function testDeleteByItself()
+    {
+        $dispatcher = PMVC\plug('dispatcher');
+        $mockObserver = new MockObserver('foo');
+        $mockObserver2 = new MockObserver2();
+        $event = 'del';
+        $dispatcher->attach($mockObserver, $event);
+        $dispatcher->attach($mockObserver2, $event);
+        $dispatcher->notify($event);
+        $this->assertEquals(
+            1,
+            $mockObserver->i
+        );
+        $this->assertEquals(
+            1,
+            $mockObserver2->i
+        );
+        $dispatcher->notify($event);
+        $this->assertEquals(
+            2,
+            $mockObserver->i
+        );
+    }
+
     function testSubjectDefaultAlias()
     {
         $fakeSubject = new Subject('');
@@ -88,14 +112,36 @@ class ObserverTest extends PHPUnit_Framework_TestCase
             32,
             strlen($fakeSubject->getHash($fakeSubject))
         );
-            
     }
+
 
 }
 
 class MockObserver extends PMVC\PlugIn
 {
+    public $i = 0;
+    public $name;
+
+    function __construct($name=null)
+    {
+        $this->name = $name;
+    }
+
     function onTest(){
 
+    }
+
+    function onDel($subject){
+        $this->i++;
+    }
+}
+
+class MockObserver2 extends PMVC\PlugIn
+{
+    public $i = 0;
+
+    function onDel($subject){
+        $subject->detach($this);
+        $this->i++;
     }
 }

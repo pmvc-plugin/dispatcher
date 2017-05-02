@@ -37,6 +37,7 @@ class dispatcher extends p\PlugIn
     */ 
     public function notify($state,$clean=null)
     {
+        $state = strtolower($state);
         $this->_notify($state.PREP, $clean);
         $this->_notify($state,$clean);
         $this->_notify($state.POST, $clean);
@@ -44,7 +45,6 @@ class dispatcher extends p\PlugIn
 
     private function _notify($state,$clean=null)
     {
-        $state = strtolower($state);
         if(isset($this->_subjects[$state])){
             $this->_subjects[$state]->notify();
             if($clean){
