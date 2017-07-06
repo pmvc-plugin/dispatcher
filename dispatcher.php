@@ -56,6 +56,10 @@ class dispatcher extends p\PlugIn
     /**
     * Register the reference to an object object
     *
+    * @param SplObserver $observer Trigger target.
+    * @param mixed       $state    Trigger type 
+    * @param mixed       $name     user by attachBefore and attachAfter
+    *
     * @return $this 
     */ 
     public function attach(SplObserver $observer, $state, $name=null)
@@ -64,6 +68,7 @@ class dispatcher extends p\PlugIn
         if (is_null($name)) {
             $name = $state;
         }
+        $name = strtolower($name);
         if (!isset($this->_subjects[$state])) {
             $this->_subjects[$state] = new Subject($name);
         }
@@ -140,15 +145,20 @@ class dispatcher extends p\PlugIn
         }
     }
 
-    function set($k, $v=null)
+    public function getOptionKey($key)
+    {
+        return  Event\SET_CONFIG.'_'.$key;
+    }
+
+    public function set($k, $v=null)
     {
         $this->_lastConfigKey = $k;
         $this[$k] = $v;
         $this->notify(Event\SET_CONFIG);
-        $this->notify(Event\SET_CONFIG.'_'.$v);
+        $this->notify($this->getOptionKey($key));
     }
 
-    function isSetOption($key)
+    public function isSetOption($key)
     {
         if(Event\SET_CONFIG != $this->_lastConfigKey){
             return false;
@@ -157,7 +167,7 @@ class dispatcher extends p\PlugIn
         return \PMVC\hasKey($last_options,$key);
     }
 
-    function stop($bool=null)
+    public function stop($bool=null)
     {
         if (is_null($bool)) {
             return \PMVC\getOption(\PMVC\PAUSE); 

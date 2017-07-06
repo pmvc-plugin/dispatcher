@@ -44,21 +44,26 @@ class Subject implements SplSubject
         return $this->_name;
     }
 
+    private function _getThis(SplObserver $observer)
+    {
+        return \PMVC\get($observer, \PMVC\THIS, function() use($observer) { return $observer; });
+    }
+
     public function attach ( SplObserver $observer )
     {
-        $observer = \PMVC\get($observer, \PMVC\THIS, $observer);
+        $observer = $this->_getThis($observer);
         $this->defaultAlias->attach($observer); 
     }
 
     public function detach ( SplObserver $observer )
     {
-        $observer = \PMVC\get($observer, \PMVC\THIS, $observer);
+        $observer = $this->_getThis($observer);
         $this->defaultAlias->detach($observer); 
     }
 
     public function contains ( SplObserver $observer )
     {
-        $observer = \PMVC\get($observer, \PMVC\THIS, $observer);
+        $observer = $this->_getThis($observer);
         return $this->defaultAlias->contains($observer); 
     }
 
