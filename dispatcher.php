@@ -145,17 +145,21 @@ class dispatcher extends p\PlugIn
         }
     }
 
-    public function getOptionKey($key)
+    public function getOptionKey($key = null)
     {
-        return  Event\SET_CONFIG.'_'.$key;
+        $new = Event\SET_CONFIG;
+        if (!is_null($key)) {
+            $new .= '_'.(string)$key;
+        }
+        return  $new;
     }
 
     public function set($k, $v=null)
     {
         $this->_lastConfigKey = $k;
         $this[$k] = $v;
-        $this->notify(Event\SET_CONFIG);
-        $this->notify($this->getOptionKey($key));
+        $this->notify($k);
+        $this->notify($this->getOptionKey($v));
     }
 
     public function isSetOption($key)

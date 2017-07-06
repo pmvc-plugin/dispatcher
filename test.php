@@ -36,6 +36,25 @@ class ObserverTest extends PHPUnit_Framework_TestCase
         $dispatcher->notify($event);
     }
 
+    function testFireEventBySetOption()
+    {
+        $key = 'foo';
+        $dispatcher = PMVC\plug($this->_plug);
+        $mockObserver = $this->getMockBuilder(__NAMESPACE__.'\MockObserver')->
+            setMethods([
+                'on'.$dispatcher->getOptionKey(),
+                'on'.$dispatcher->getOptionKey($key)
+            ])->
+            getMock();
+        $mockObserver->expects($this->once())
+           ->method('on'.$dispatcher->getOptionKey());
+        $mockObserver->expects($this->once())
+           ->method('on'.$dispatcher->getOptionKey($key));
+        $dispatcher->attach($mockObserver, $dispatcher->getOptionKey());
+        $dispatcher->attach($mockObserver, $dispatcher->getOptionKey($key));
+        $dispatcher->set($dispatcher->getOptionKey(), 'foo');
+    }
+
     function testAttachAfter()
     {
         $event = 'Test';
@@ -128,6 +147,15 @@ class MockObserver extends PMVC\PlugIn
     }
 
     function onTest(){
+    }
+
+    function onSetConfig()
+    {
+
+    }
+
+    function onSetConfig__foo()
+    {
 
     }
 
