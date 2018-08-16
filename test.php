@@ -36,6 +36,36 @@ class ObserverTest extends PHPUnit_Framework_TestCase
         $dispatcher->notify($event);
     }
 
+    public function testFireWithoutClean()
+    {
+        $event = 'Test';
+        $dispatcher = PMVC\plug($this->_plug);
+
+        $mockObserver = $this->getMockBuilder(__NAMESPACE__.'\MockObserver')
+            ->setMethods(['on'.$event])
+            ->getMock();
+        $mockObserver->expects($this->once())
+           ->method('on'.$event);
+        $dispatcher->attach($mockObserver, $event);
+        $dispatcher->notify($event);
+        $this->assertTrue($dispatcher->contains($mockObserver, $event));
+    }
+
+    public function testFireWithClean()
+    {
+        $event = 'Test';
+        $dispatcher = PMVC\plug($this->_plug);
+
+        $mockObserver = $this->getMockBuilder(__NAMESPACE__.'\MockObserver')
+            ->setMethods(['on'.$event])
+            ->getMock();
+        $mockObserver->expects($this->once())
+           ->method('on'.$event);
+        $dispatcher->attach($mockObserver, $event);
+        $dispatcher->notify($event, true);
+        $this->assertFalse($dispatcher->contains($mockObserver, $event));
+    }
+
     function testFireEventBySetOption()
     {
         $key = 'foo';

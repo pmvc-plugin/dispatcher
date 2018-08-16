@@ -15,6 +15,8 @@ class Subject implements SplSubject
     }
 
     private $_name;
+    private $_doClean;
+
     public function __construct($name)
     {
        $this->_name = $name; 
@@ -29,6 +31,9 @@ class Subject implements SplSubject
         while ($store->valid()) {
             $obj = $store->current();
             $store->next();
+            if ($this->_doClean) {
+                $store->detach($obj);
+            }
             $obj->update($this);
             if ($store->contains($obj)) {
                 $tmp->attach($obj);
@@ -42,6 +47,11 @@ class Subject implements SplSubject
     public function getName()
     {
         return $this->_name;
+    }
+
+    public function setDoClean($bool)
+    {
+        $this->_doClean = $bool;
     }
 
     private function _getThis(SplObserver $observer)

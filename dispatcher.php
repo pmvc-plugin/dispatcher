@@ -43,13 +43,11 @@ class dispatcher extends p\PlugIn
         $this->_notify($state.POST, $clean);
     }
 
-    private function _notify($state,$clean=null)
+    private function _notify($state, $clean=null)
     {
-        if(isset($this->_subjects[$state])){
+        if (isset($this->_subjects[$state])) {
+            $this->_subjects[$state]->setDoClean($clean);
             $this->_subjects[$state]->notify();
-            if($clean){
-                $this->_subjects[$state]->removeAll();
-            }
         }
     }
 
