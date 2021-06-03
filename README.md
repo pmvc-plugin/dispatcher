@@ -5,7 +5,7 @@
 [![Total Downloads](https://poser.pugx.org/pmvc-plugin/dispatcher/downloads)](https://packagist.org/packages/pmvc-plugin/dispatcher) 
 
 # PMVC Dispatcher / Observable Plugin 
-===============
+
 
 ## Install with Composer
 ### 1. Download composer
