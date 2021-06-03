@@ -1,13 +1,11 @@
 <?php
 namespace PMVC\PlugIn\dispatcher;
 
-use PHPUnit_Framework_TestCase;
 use PMVC;
+use PMVC\TestCase;
 
-PMVC\Load::plug();
-PMVC\addPlugInFolders(['../']);
 
-class ObserverTest extends PHPUnit_Framework_TestCase
+class ObserverTest extends TestCase
 {
     private $_plug = 'dispatcher';
     function testAddObserver()
@@ -163,6 +161,22 @@ class ObserverTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    function testStop()
+    {
+        $dispatcher = PMVC\plug('dispatcher');
+
+        $bool = $dispatcher->stop(false);
+        $this->assertFalse($bool);
+
+        $bool = $dispatcher->stop();
+        $this->assertFalse($bool);
+
+        $bool = $dispatcher->stop(true);
+        $this->assertTrue($bool);
+
+        $bool = $dispatcher->stop();
+        $this->assertTrue($bool);
+    }
 
 }
 

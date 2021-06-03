@@ -171,11 +171,12 @@ class dispatcher extends p\PlugIn
 
     public function stop($bool=null)
     {
-        if (is_null($bool)) {
-            return \PMVC\getOption(\PMVC\PAUSE); 
-         } else {
-            return \PMVC\option('set',\PMVC\PAUSE,$bool);
+        static $isStop = false;
+
+        if (!is_null($bool)) {
+            $isStop = $bool;
         }
+        return $isStop;
     }
 }
 
