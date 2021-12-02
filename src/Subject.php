@@ -23,6 +23,7 @@ class Subject implements SplSubject
        $this->setDefaultAlias(new SplObjectStorage());
     }
 
+    #[\ReturnTypeWillChange]
     public function notify()
     {
         $tmp = new SplObjectStorage();
@@ -43,6 +44,19 @@ class Subject implements SplSubject
         unset($this->defaultAlias);
         $this->setDefaultAlias($tmp);
     }
+    #[\ReturnTypeWillChange]
+    public function attach ( SplObserver $observer )
+    {
+        $observer = $this->_getThis($observer);
+        $this->defaultAlias->attach($observer); 
+    }
+
+    #[\ReturnTypeWillChange]
+    public function detach ( SplObserver $observer )
+    {
+        $observer = $this->_getThis($observer);
+        $this->defaultAlias->detach($observer); 
+    }
 
     public function getName()
     {
@@ -57,18 +71,6 @@ class Subject implements SplSubject
     private function _getThis(SplObserver $observer)
     {
         return \PMVC\get($observer, \PMVC\THIS, function() use($observer) { return $observer; });
-    }
-
-    public function attach ( SplObserver $observer )
-    {
-        $observer = $this->_getThis($observer);
-        $this->defaultAlias->attach($observer); 
-    }
-
-    public function detach ( SplObserver $observer )
-    {
-        $observer = $this->_getThis($observer);
-        $this->defaultAlias->detach($observer); 
     }
 
     public function contains ( SplObserver $observer )
