@@ -4,13 +4,14 @@ use SplSubject;
 use SplObserver;
 use SplObjectStorage;
 use PMVC;
+use PMVC\Alias;
 
 class Subject implements SplSubject
 {
     /**
      * Alias
      */
-    use PMVC\Alias {
+    use Alias {
         getTypeOfAlias as private _getTypeOfAlias;
     }
 
@@ -19,8 +20,8 @@ class Subject implements SplSubject
 
     public function __construct($name)
     {
-       $this->_name = $name; 
-       $this->setDefaultAlias(new SplObjectStorage());
+        $this->_name = $name;
+        $this->setDefaultAlias(new SplObjectStorage());
     }
 
     #[\ReturnTypeWillChange]
@@ -45,22 +46,22 @@ class Subject implements SplSubject
         $this->setDefaultAlias($tmp);
     }
     #[\ReturnTypeWillChange]
-    public function attach ( SplObserver $observer )
+    public function attach(SplObserver $observer)
     {
         $observer = $this->_getThis($observer);
-        $this->defaultAlias->attach($observer); 
+        $this->defaultAlias->attach($observer);
     }
 
     #[\ReturnTypeWillChange]
-    public function detach ( SplObserver $observer )
+    public function detach(SplObserver $observer)
     {
         $observer = $this->_getThis($observer);
-        $this->defaultAlias->detach($observer); 
+        $this->defaultAlias->detach($observer);
     }
 
     public function getName()
     {
-        return $this->_name;
+        return strtolower($this->_name);
     }
 
     public function setDoClean($bool)
@@ -70,18 +71,20 @@ class Subject implements SplSubject
 
     private function _getThis(SplObserver $observer)
     {
-        return \PMVC\get($observer, \PMVC\THIS, function() use($observer) { return $observer; });
+        return \PMVC\get($observer, \PMVC\THIS, function () use ($observer) {
+            return $observer;
+        });
     }
 
-    public function contains ( SplObserver $observer )
+    public function contains(SplObserver $observer)
     {
         $observer = $this->_getThis($observer);
-        return $this->defaultAlias->contains($observer); 
+        return $this->defaultAlias->contains($observer);
     }
 
-    public function removeAll ( $object=null )
+    public function removeAll($object = null)
     {
-        if(empty($object)){
+        if (empty($object)) {
             $object = $this->defaultAlias;
         }
         $this->defaultAlias->removeAll($object);
@@ -89,10 +92,7 @@ class Subject implements SplSubject
 
     protected function getTypeOfAlias()
     {
-        $arr = $this->_getTypeOfAlias(); 
+        $arr = $this->_getTypeOfAlias();
         return [$arr['aliasAsDefault']];
     }
 }
-
-
-
