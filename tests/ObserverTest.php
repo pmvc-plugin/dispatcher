@@ -25,8 +25,8 @@ class ObserverTest extends TestCase
         $event = 'Test';
         $dispatcher = PMVC\plug($this->_plug);
 
-        $mockObserver = $this->getMockBuilder(__NAMESPACE__.'\MockObserver')
-            ->setMethods(['on'.$event])
+        $mockObserver = $this->getPMVCMockBuilder(__NAMESPACE__.'\MockObserver')
+            ->pmvc_onlyMethods(['on'.$event])
             ->getMock();
         $mockObserver->expects($this->once())
            ->method('on'.$event);
@@ -39,8 +39,8 @@ class ObserverTest extends TestCase
         $event = 'Test';
         $dispatcher = PMVC\plug($this->_plug);
 
-        $mockObserver = $this->getMockBuilder(__NAMESPACE__.'\MockObserver')
-            ->setMethods(['on'.$event])
+        $mockObserver = $this->getPMVCMockBuilder(__NAMESPACE__.'\MockObserver')
+            ->pmvc_onlyMethods(['on'.$event])
             ->getMock();
         $mockObserver->expects($this->once())
            ->method('on'.$event);
@@ -54,8 +54,8 @@ class ObserverTest extends TestCase
         $event = 'Test';
         $dispatcher = PMVC\plug($this->_plug);
 
-        $mockObserver = $this->getMockBuilder(__NAMESPACE__.'\MockObserver')
-            ->setMethods(['on'.$event])
+        $mockObserver = $this->getPMVCMockBuilder(__NAMESPACE__.'\MockObserver')
+            ->pmvc_onlyMethods(['on'.$event])
             ->getMock();
         $mockObserver->expects($this->once())
            ->method('on'.$event);
@@ -68,8 +68,8 @@ class ObserverTest extends TestCase
     {
         $key = 'foo';
         $dispatcher = PMVC\plug($this->_plug);
-        $mockObserver = $this->getMockBuilder(__NAMESPACE__.'\MockObserver')->
-            setMethods([
+        $mockObserver = $this->getPMVCMockBuilder(__NAMESPACE__.'\MockObserver')->
+            pmvc_onlyMethods([
                 'on'.$dispatcher->getOptionKey(),
                 'on'.$dispatcher->getOptionKey($key)
             ])->
@@ -87,8 +87,8 @@ class ObserverTest extends TestCase
     {
         $event = 'Test';
         $dispatcher = PMVC\plug($this->_plug);
-        $mockObserver = $this->getMockBuilder(__NAMESPACE__.'\MockObserver')
-            ->setMethods(['on'.$event])
+        $mockObserver = $this->getPMVCMockBuilder(__NAMESPACE__.'\MockObserver')
+            ->pmvc_onlyMethods(['on'.$event])
             ->getMock();
         $mockObserver->expects($this->once())
            ->method('on'.$event);
@@ -198,7 +198,7 @@ class MockObserver extends PMVC\PlugIn
 
     }
 
-    function onSetConfig__foo()
+    function onSetConfig_foo()
     {
 
     }

@@ -1,6 +1,6 @@
 [![Latest Stable Version](https://poser.pugx.org/pmvc-plugin/dispatcher/v/stable)](https://packagist.org/packages/pmvc-plugin/dispatcher) 
 [![Latest Unstable Version](https://poser.pugx.org/pmvc-plugin/dispatcher/v/unstable)](https://packagist.org/packages/pmvc-plugin/dispatcher) 
-[![CircleCI](https://circleci.com/gh/pmvc-plugin/dispatcher/tree/master.svg?style=svg)](https://circleci.com/gh/pmvc-plugin/dispatcher/tree/master)
+[![CircleCI](https://circleci.com/gh/pmvc-plugin/dispatcher/tree/main.svg?style=svg)](https://circleci.com/gh/pmvc-plugin/dispatcher/tree/main)
 [![License](https://poser.pugx.org/pmvc-plugin/dispatcher/license)](https://packagist.org/packages/pmvc-plugin/dispatcher)
 [![Total Downloads](https://poser.pugx.org/pmvc-plugin/dispatcher/downloads)](https://packagist.org/packages/pmvc-plugin/dispatcher) 
 
@@ -19,7 +19,7 @@ PMVC Dispatcher / Observable Plugin
 ```
 {
     "require": {
-        "pmvc-plugin/dispatcher": "dev-master"
+        "pmvc-plugin/dispatcher": "dev-main"
     }
 }
 ```
